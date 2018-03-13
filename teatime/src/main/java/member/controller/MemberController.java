@@ -255,7 +255,6 @@ public class MemberController {
 	@RequestMapping(value="member.sendAuthEmail", method=RequestMethod.POST)
 	public @ResponseBody boolean sendAuthEmail(String userEmail, HttpSession session){
 		boolean result = false;
-		System.out.println(userEmail);
 		session.removeAttribute("sessionEmailAuth");
 		
 		if(userEmail.equals("")){
@@ -263,19 +262,15 @@ public class MemberController {
 		}
 		
 		int checkEmail = service.checkRegistEmail(userEmail);
-		System.out.println(checkEmail);
 		if(checkEmail != 1){
 	
 			String authText = EmailAuthClass.excuteEmailAuth();
-			System.out.println("인증 코드 : "+ authText);
 			result = service.sendAuthMail(userEmail, authText);
 			if(result){
 				session.setAttribute("sessionEmailAuth", authText);	
 				
 			} 
 		}	
-		
-		System.out.println(result);
 		return result;
 	}
 
